@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OnlineExamSystem.Common.Models.Question>
+@{
+    ViewData["Title"] = "Take Exam";
+    var exam = ViewBag.Exam as OnlineExamSystem.Common.Models.Exam;
+}
+
+<h1>@exam.Title</h1>
+
+<div id="errorMessage" class="alert alert-danger" style="display:none;"></div>
+<div id="successMessage" class="alert alert-success" style="display:none;"></div>
+
+<form id="examForm" asp-action="SubmitExam" asp-controller="Exam" 
+      data-ajax="true" 
+      data-ajax-method="POST" 
+      data-ajax-success="onSuccess" 
+      data-ajax-failure="onFailure">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ExamId" value="@exam.Id" />
+    @foreach (var question in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">@question.Title</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" value="1" required>
+                    <label class="form-check-label">@question.Option1</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" value="2">
+                    <label class="form-check-label">@question.Option2</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" value="3">
+                    <label class="form-check-label">@question.Option3</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Answers[@question.Id]" value="4">
+                    <label class="form-check-label">@question.Option4</label>
+                </div>
+            </div>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Submit Exam</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function submitExam() {
+            var formData = $('#examForm').serialize(); // Serialize form data
+
+            $.ajax({
+                url: '/Exam/SubmitExam',
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // Add Anti-Forgery Token
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#resultMessage').html('<div class="alert alert-success">Exam submitted successfully! Redirecting...</div>');
+                        setTimeout(function () {
+                            window.location.href = response.redirectUrl;
+                        }, 2000);
+                    } else {
+                        $('#resultMessage').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#resultMessage').html('<div class="alert alert-danger">An error occurred while submitting the exam.</div>');
+                }
+            });
+        }
+    </script>
+}

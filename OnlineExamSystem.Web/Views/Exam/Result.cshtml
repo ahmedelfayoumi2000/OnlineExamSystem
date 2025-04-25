@@ -1,0 +1,79 @@
+﻿@model OnlineExamSystem.Web.ViewModel.ExamResultViewModel
+<h1>Exam Results</h1>
+
+@if (Model?.UserExam?.Exam != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.UserExam.Exam.Title</h5>
+            <strong>Score:</strong> @Model.UserExam.Score% <br />
+            <strong>Correct Answers:</strong> @Model.CorrectAnswers / @Model.TotalQuestions <br />
+            <strong>Incorrect Answers:</strong> @(Model.TotalQuestions - Model.CorrectAnswers) / @Model.TotalQuestions <br />
+            <strong>Status:</strong> <span class="@(Model.UserExam.IsPassed ? "text-success" : "text-danger")">@(Model.UserExam.IsPassed ? "Passed" : "Failed")</span>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Answer Details</h2>
+    @if (Model.Questions?.Any() == true)
+    {
+        @foreach (var question in Model.Questions)
+        {
+            var userAnswer = Model.UserAnswers.FirstOrDefault(ua => ua.QuestionId == question.Id);
+            <div class="card-body">
+                <h5 class="card-title">@question.Title</h5>
+                <p>
+                    <strong>Your Answer:</strong> 
+                    @if (userAnswer != null)
+                    {
+                        string selectedOptionText = userAnswer.SelectedOption switch
+                        {
+                            1 => question.Option1,
+                            2 => question.Option2,
+                            3 => question.Option3,
+                            4 => question.Option4,
+                            _ => "No answer provided"
+                        };
+                        <span>@(userAnswer.SelectedOption == 0 ? "No answer provided" : $"Option {userAnswer.SelectedOption} ({selectedOptionText})")</span>
+                        @if (userAnswer.SelectedOption != 0 && userAnswer.SelectedOption == question.CorrectOption)
+                        {
+                            <strong class="text-success"> ✓ Correct</strong>
+                        }
+                        else
+                        {
+                            string correctOptionText = question.CorrectOption switch
+                            {
+                                1 => question.Option1,
+                                2 => question.Option2,
+                                3 => question.Option3,
+                                4 => question.Option4,
+                                _ => "Invalid option"
+                            };
+                            <strong class="text-danger"> ✗ Incorrect - Correct Answer: Option @question.CorrectOption (@correctOptionText)</strong>
+                        }
+                    }
+                    else
+                    {
+                        string correctOptionText = question.CorrectOption switch
+                        {
+                            1 => question.Option1,
+                            2 => question.Option2,
+                            3 => question.Option3,
+                            4 => question.Option4,
+                            _ => "Invalid option"
+                        };
+                        <span class="text-warning">No answer provided</span>
+                        <strong class="text-danger"> ✗ Incorrect - Correct Answer: Option @question.CorrectOption (@correctOptionText)</strong>
+                    }
+                </p>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-warning">No questions available for this exam.</p>
+    }
+}
+else
+{
+    <p class="text-danger">Error: Exam details are not available.</p>
+}

@@ -1,0 +1,54 @@
+# .NET Core / ASP.NET Core specific
+bin/
+obj/
+*.csproj.user
+*.suo
+*.sln.docstates
+*.cache
+*.log
+*.pdb
+*.dll
+*.exe
+
+# Visual Studio specific
+.vscode/
+.vs/
+*.vs/
+*.code-workspace
+
+# Dependency directories
+**/node_modules/
+**/wwwroot/lib/
+
+# Environment variables and secrets
+appsettings*.json
+*.env
+
+# Build output
+**/wwwroot/dist/
+**/wwwroot/bundles/
+**/wwwroot/css/
+**/wwwroot/js/
+
+# Local database files
+*.mdf
+*.ldf
+
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+
+# Ignore test results
+TestResults/
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.temp
+
+# Ignore macOS specific files
+.DS_Store
