@@ -1,6 +1,8 @@
-﻿using OnlineExamSystem.BLL.Interfaces;
-using OnlineExamSystem.BLL.Repositories;
+﻿using OnlineExamSystem.BLL.Helpers;
+using OnlineExamSystem.BLL.ServiceInterfaces;
 using OnlineExamSystem.BLL.Services;
+using OnlineExamSystem.Common.Interfaces;
+using OnlineExamSystem.DAL.Repositories;
 
 namespace OnlineExamSystem.Web.Extentions
 {
@@ -8,15 +10,13 @@ namespace OnlineExamSystem.Web.Extentions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-          services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-          services.AddScoped<IExamRepository, ExamRepository>();
-          services.AddScoped<IQuestionRepository, QuestionRepository>();
-          services.AddScoped<IUserExamRepository, UserExamRepository>();
-          services.AddScoped<IUserAnswerRepository, UserAnswerRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IExamService, ExamService>();
-            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IExamRetrievalService, ExamRetrievalService>();
+            services.AddScoped<IExamModificationService, ExamModificationService>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IUserExamService, UserExamService>();
+            services.AddAutoMapper(typeof(MappingProfile));
 
             return services;
         }

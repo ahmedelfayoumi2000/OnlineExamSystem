@@ -1,0 +1,42 @@
+﻿@model OnlineExamSystem.BLL.Dtos.QuestionDto
+
+<h2>Create Question</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ExamId" />
+    <div class="form-group">
+        <label asp-for="Text" class="control-label"></label>
+        <input asp-for="Text" class="form-control" />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Points" class="control-label"></label>
+        <input asp-for="Points" class="form-control" type="number" value="1" readonly />
+        <span asp-validation-for="Points" class="text-danger"></span>
+    </div>
+
+    <h4>Options</h4>
+    @for (int i = 0; i < Model.Options.Count; i++)
+    {
+        <div class="form-group">
+            <input type="hidden" asp-for="Options[i].Id" />
+            <input type="hidden" asp-for="Options[i].QuestionId" />
+            <label>Option @(i + 1)</label>
+            <input asp-for="Options[i].Text" class="form-control" placeholder="Option text" />
+            <span asp-validation-for="Options[i].Text" class="text-danger"></span>
+            <label class="mt-2">
+                <input asp-for="Options[i].IsCorrect" type="checkbox" /> Is Correct
+            </label>
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a asp-action="Index" asp-route-examId="@Model.ExamId" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

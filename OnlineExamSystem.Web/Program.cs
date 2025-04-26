@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineExamSystem.Common.Models;
+using OnlineExamSystem.Common.Entities;
 using OnlineExamSystem.DAL.Data;
 using OnlineExamSystem.Web.Extensions;
 using OnlineExamSystem.Web.Extentions;
@@ -60,7 +60,7 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
         await context.Database.MigrateAsync();
 
-        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var userManager = services.GetRequiredService<UserManager<User>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
         string[] roles = { "Admin", "User" };
@@ -76,7 +76,7 @@ using (var scope = app.Services.CreateScope())
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
         if (adminUser == null)
         {
-            adminUser = new ApplicationUser
+            adminUser = new User
             {
                 UserName = adminEmail,
                 Email = adminEmail,

@@ -5,37 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using OnlineExamSystem.Common.Models;
+using OnlineExamSystem.Common.Entities;
 
 namespace OnlineExamSystem.DAL.Data.Config
 {
-    public class UserExamConfigurations : IEntityTypeConfiguration<UserExam>
+    public class UserExamConfiguration : IEntityTypeConfiguration<UserExam>
     {
         public void Configure(EntityTypeBuilder<UserExam> builder)
         {
-            builder.HasKey(ue => ue.Id); 
-            builder.Property(ue => ue.Id)
-                   .ValueGeneratedOnAdd(); 
-
             builder.HasOne(ue => ue.User)
-                   .WithMany()
-                   .HasForeignKey(ue => ue.UserId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(u => u.UserExams)
+                .HasForeignKey(ue => ue.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(ue => ue.Exam)
-                   .WithMany(e => e.UserExams)
-                   .HasForeignKey(ue => ue.ExamId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(ue => ue.Score)
-                   .IsRequired();
-
-            builder.Property(ue => ue.IsPassed)
-                   .IsRequired();
+                .WithMany(e => e.UserExams)
+                .HasForeignKey(ue => ue.ExamId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(ue => ue.TakenAt)
-                   .IsRequired()
-                   .HasDefaultValueSql("GETUTCDATE()");
+                .IsRequired()
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

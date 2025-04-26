@@ -1,8 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<OnlineExamSystem.BLL.Dtos.ExamDto>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Available Exams</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Welcome, @User.Identity.Name!</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Duration (min)</th>
+                <th>Passing Score (%)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exam in Model)
+            {
+                <tr>
+                    <td>@exam.Title</td>
+                    <td>@exam.Description</td>
+                    <td>@exam.Duration</td>
+                    <td>@exam.PassingScore</td>
+                    <td>
+                        <a asp-controller="Exams" asp-action="TakeExam" asp-route-id="@exam.Id" class="btn btn-primary">Take Exam</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to view and take exams.</p>
+}

@@ -1,31 +1,18 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using OnlineExamSystem.Web.Models;
-
-namespace OnlineExamSystem.Web.Controllers;
+using OnlineExamSystem.BLL.ServiceInterfaces;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IExamRetrievalService _examRetrievalService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IExamRetrievalService examRetrievalService)
     {
-        _logger = logger;
+        _examRetrievalService = examRetrievalService ?? throw new ArgumentNullException(nameof(examRetrievalService));
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var exams = await _examRetrievalService.GetAllExamsAsync();
+        return View(exams);
     }
 }

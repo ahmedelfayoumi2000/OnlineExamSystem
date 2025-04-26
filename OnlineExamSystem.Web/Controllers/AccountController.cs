@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using OnlineExamSystem.Common.Models;
+using OnlineExamSystem.Common.Entities;
 using System.Threading.Tasks;
 
 namespace OnlineExamSystem.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager)
+        public AccountController(SignInManager<User> signInManager)
         {
             _signInManager = signInManager;
         }

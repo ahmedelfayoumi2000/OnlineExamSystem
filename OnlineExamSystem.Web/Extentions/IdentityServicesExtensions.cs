@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineExamSystem.Common.Models;
+using OnlineExamSystem.Common.Entities;
 using OnlineExamSystem.DAL.Data;
 
 namespace OnlineExamSystem.Web.Extensions
@@ -14,7 +14,7 @@ namespace OnlineExamSystem.Web.Extensions
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
