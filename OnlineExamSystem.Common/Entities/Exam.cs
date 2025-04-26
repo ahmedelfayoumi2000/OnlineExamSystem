@@ -10,11 +10,9 @@ namespace OnlineExamSystem.Common.Entities
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Duration { get; set; } // In minutes
-        public int PassingScore { get; set; } // Percentage 
+        public int PassingScore { get; set; } = 60;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
-        public ICollection<UserExam> UserExams { get; set; } = new List<UserExam>();
+        public List<Question> Questions { get; set; } = new List<Question>();
     }
 }

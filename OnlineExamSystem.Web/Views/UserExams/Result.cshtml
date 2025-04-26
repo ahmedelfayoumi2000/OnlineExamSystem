@@ -1,0 +1,24 @@
+﻿@model OnlineExamSystem.BLL.Dtos.UserExamDto
+
+@{
+    ViewData["Title"] = "Exam Result";
+}
+
+<h2>Exam Result</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Exam: @Model.Exam.Title</h5>
+        <p class="card-text"><strong>Total Score:</strong> @Model.Score%</p>
+        <p class="card-text"><strong>Correct Answers:</strong> @Model.CorrectAnswers</p>
+        <p class="card-text"><strong>Incorrect Answers:</strong> @(Model.TotalQuestions - Model.CorrectAnswers)</p>
+        <p class="card-text"><strong>Total Questions:</strong> @Model.TotalQuestions</p>
+        <p class="card-text">
+            <strong>Status:</strong>
+            <span class="@(Model.Passed ? "text-success" : "text-danger")">
+                @(Model.Passed ? "Passed" : "Failed")
+            </span>
+        </p>
+        <a href="@Url.Action("Index", "Exams")" class="btn btn-primary">Back to Exams</a>
+    </div>
+</div>

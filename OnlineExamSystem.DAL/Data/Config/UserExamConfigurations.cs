@@ -18,11 +18,6 @@ namespace OnlineExamSystem.DAL.Data.Config
                 .HasForeignKey(ue => ue.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(ue => ue.Exam)
-                .WithMany(e => e.UserExams)
-                .HasForeignKey(ue => ue.ExamId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(ue => ue.TakenAt)
                 .IsRequired()
                 .HasDefaultValueSql("GETDATE()");

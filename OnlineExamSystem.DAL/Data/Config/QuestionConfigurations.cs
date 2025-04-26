@@ -17,10 +17,6 @@ namespace OnlineExamSystem.DAL.Data.Config
                 .IsRequired()
                 .HasMaxLength(200);
 
-            builder.Property(q => q.Points)
-                .IsRequired()
-                .HasDefaultValue(1);
-
             builder.HasOne(q => q.Exam)
                 .WithMany(e => e.Questions)
                 .HasForeignKey(q => q.ExamId)

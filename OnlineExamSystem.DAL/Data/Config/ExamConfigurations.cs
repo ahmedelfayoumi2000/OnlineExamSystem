@@ -20,9 +20,6 @@ namespace OnlineExamSystem.DAL.Data.Config
             builder.Property(e => e.Description)
                 .HasMaxLength(500);
 
-            builder.Property(e => e.Duration)
-                .IsRequired();
-
             builder.Property(e => e.PassingScore)
                 .IsRequired();
 

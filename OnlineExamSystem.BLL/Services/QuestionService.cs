@@ -50,6 +50,7 @@ namespace OnlineExamSystem.BLL.Services
             if (questionDto.ExamId <= 0) throw new ArgumentOutOfRangeException(nameof(questionDto.ExamId), "Exam ID must be greater than zero.");
             if (questionDto.Options == null || questionDto.Options.Count != 4) throw new ArgumentException("Question must have exactly 4 options.", nameof(questionDto.Options));
             if (questionDto.Options.Count(o => o.IsCorrect) != 1) throw new ArgumentException("Question must have exactly one correct option.", nameof(questionDto.Options));
+            if (questionDto.Options.Any(o => string.IsNullOrWhiteSpace(o.Text))) throw new ArgumentException("All options must have non-empty text.", nameof(questionDto.Options));
 
             var question = _mapper.Map<Question>(questionDto);
             await _unitOfWork.Repository<Question>().AddAsync(question);
@@ -66,6 +67,7 @@ namespace OnlineExamSystem.BLL.Services
             if (questionDto.ExamId <= 0) throw new ArgumentOutOfRangeException(nameof(questionDto.ExamId), "Exam ID must be greater than zero.");
             if (questionDto.Options == null || questionDto.Options.Count != 4) throw new ArgumentException("Question must have exactly 4 options.", nameof(questionDto.Options));
             if (questionDto.Options.Count(o => o.IsCorrect) != 1) throw new ArgumentException("Question must have exactly one correct option.", nameof(questionDto.Options));
+            if (questionDto.Options.Any(o => string.IsNullOrWhiteSpace(o.Text))) throw new ArgumentException("All options must have non-empty text.", nameof(questionDto.Options));
 
             var questionRepo = _unitOfWork.Repository<Question>();
             var existingQuestion = await questionRepo.GetByIdAsync(questionDto.Id);

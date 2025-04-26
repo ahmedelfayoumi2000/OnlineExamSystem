@@ -19,9 +19,8 @@ namespace OnlineExamSystem.BLL.Helpers
             CreateMap<QuestionDto, Question>();
             CreateMap<Option, OptionDto>();
             CreateMap<OptionDto, Option>();
-            CreateMap<UserExam, UserExamDto>()
-                .ForMember(dto => dto.UserFullName, opt => opt.MapFrom(src => src.User.FullName))
-                .ForMember(dto => dto.ExamTitle, opt => opt.MapFrom(src => src.Exam.Title));
+            CreateMap<UserExam, UserExamDto>();
+              
             CreateMap<UserExamDto, UserExam>();
         }
     }

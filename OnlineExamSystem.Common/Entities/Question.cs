@@ -10,9 +10,8 @@ namespace OnlineExamSystem.Common.Entities
     public class Question : BaseEntity
     {
         public string Text { get; set; }
-        public int Points { get; set; } = 1; // Each question worth 1 point by default
         public int ExamId { get; set; }
         public Exam Exam { get; set; }
-        public ICollection<Option> Options { get; set; } = new List<Option>();
+        public List<Option> Options { get; set; } = new List<Option>();
     }
 }

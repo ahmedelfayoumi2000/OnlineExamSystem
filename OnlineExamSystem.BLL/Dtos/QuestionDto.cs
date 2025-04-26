@@ -4,7 +4,6 @@
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public int Points { get; set; }
         public int ExamId { get; set; }
         public List<OptionDto> Options { get; set; }
     }

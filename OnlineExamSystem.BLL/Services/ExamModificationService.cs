@@ -23,7 +23,6 @@ namespace OnlineExamSystem.BLL.Services
         {
             if (examDto == null) throw new ArgumentNullException(nameof(examDto));
             if (string.IsNullOrWhiteSpace(examDto.Title)) throw new ArgumentException("Exam title cannot be empty.", nameof(examDto.Title));
-            if (examDto.Duration <= 0) throw new ArgumentOutOfRangeException(nameof(examDto.Duration), "Duration must be greater than zero.");
             if (examDto.PassingScore < 0 || examDto.PassingScore > 100) throw new ArgumentOutOfRangeException(nameof(examDto.PassingScore), "Passing score must be between 0 and 100.");
 
             var exam = _mapper.Map<Exam>(examDto);
@@ -41,7 +40,6 @@ namespace OnlineExamSystem.BLL.Services
             if (examDto == null) throw new ArgumentNullException(nameof(examDto));
             if (examDto.Id <= 0) throw new ArgumentOutOfRangeException(nameof(examDto.Id), "Exam ID must be greater than zero.");
             if (string.IsNullOrWhiteSpace(examDto.Title)) throw new ArgumentException("Exam title cannot be empty.", nameof(examDto.Title));
-            if (examDto.Duration <= 0) throw new ArgumentOutOfRangeException(nameof(examDto.Duration), "Duration must be greater than zero.");
             if (examDto.PassingScore < 0 || examDto.PassingScore > 100) throw new ArgumentOutOfRangeException(nameof(examDto.PassingScore), "Passing score must be between 0 and 100.");
 
             var examRepo = _unitOfWork.Repository<Exam>();
